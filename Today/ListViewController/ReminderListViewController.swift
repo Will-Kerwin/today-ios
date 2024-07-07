@@ -26,6 +26,21 @@ class ReminderListViewController: UICollectionViewController {
         
         collectionView.dataSource = dataSource
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        // we arent going to show it as selected so turn off the selected status and trigger navigate instead
+        
+        let id = reminders[indexPath.item].id
+        pushDetailViewForReminder(withId: id)
+        
+        return false
+    }
+    
+    func pushDetailViewForReminder(withId id: Reminder.ID){
+        let reminder = reminder(withId: id)
+        let viewController = ReminderViewController(reminder: reminder)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 
     private func listLayout() -> UICollectionViewCompositionalLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .grouped)
